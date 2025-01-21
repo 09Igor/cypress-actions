@@ -9,7 +9,7 @@ on:
 
 jobs:
   cypress-e2e-electron:
-    runs-on: ubuntu-22.04 # Usando uma versão estável do Ubuntu
+    runs-on: ubuntu-22.04  # Usando uma versão estável do Ubuntu
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.2.2
@@ -31,5 +31,5 @@ jobs:
           group: UI Electron
           spec: ${{ github.event.inputs.spec }}
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}  # Garantir que o segredo esteja sendo passado
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
