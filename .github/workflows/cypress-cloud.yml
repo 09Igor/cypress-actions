@@ -1,27 +1,39 @@
-name: Cypress cloud
+name: Cypress Cloud
 
 on:
   workflow_dispatch:
     inputs:
-      cli:
-        description: Run by cypress command line
-        default: cypress/e2e/*
+      spec:
+        description: Specify the Cypress spec to run
+        default: "cypress/e2e/*" # Corrigido para passar um caminho válido de arquivos de teste
 
 jobs:
   cypress-e2e-electron:
     runs-on: ubuntu-latest
     steps:
-      - name: Get code
+      # Checkout do código-fonte
+      - name: Checkout code
         uses: actions/checkout@v4.2.2
 
+      # Instalação de dependências gráficas necessárias
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libnss3 libatk1.0-0 libatk-bridge2.0-0 libx11-xcb1 libxcomposite1 libxrandr2 libgbm-dev libasound2
+
+      # Configuração do ambiente gráfico (Xvfb)
+      - name: Start Xvfb
+        run: Xvfb :99 -screen 0 1920x1080x24 & export DISPLAY=:99
+
+      # Executar Cypress usando o GitHub Action oficial
       - name: Cypress run
         uses: cypress-io/github-action@v6.5.0
         with:
-          install-comand: yarn install
-          brownser: electron
-          reod: true
+          install-command: yarn install # Corrigido o comando de instalação
+          browser: electron             # Corrigido o nome do navegador
+          record: true                  # Corrigido para ativar gravação no Cypress Cloud
           group: UI Electron
-          spec: ${{ github.event.inputs.spec }}
+          spec: ${{ github.event.inputs.spec }} # Especificação dinâmica dos testes
         env:
-          CYPRESSS_RECORD_KEY: 9c29f245-ced9-400e-a43a-757304716cb0
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }} # Corrigido o nome da variável
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
