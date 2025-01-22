@@ -29,7 +29,9 @@ jobs:
       - name: Run Cypress Tests for Electron
         env:
           TARGET_TOKEN_ELECTRON: ${{ secrets.TARGET_TOKEN_ELECTRON }} # Tesults token
-        run: echo "Running: ${{ github.event.inputs.cli-electron }}" && ${{ github.event.inputs.cli-electron }}
+        run: |
+          echo "Running: ${{ github.event.inputs.cli-electron }}"
+          ${{ github.event.inputs.cli-electron }}
 
   cypress-chrome-tests:
     runs-on: ubuntu-latest
@@ -47,7 +49,9 @@ jobs:
       - name: Run Cypress Tests for Chrome
         env:
           TARGET_TOKEN_CHROME: ${{ secrets.TARGET_TOKEN_CHROME }} # Tesults token
-        run: echo "Running: ${{ github.event.inputs.cli-chrome }}" && ${{ github.event.inputs.cli-chrome }}
+        run: |
+          echo "Running: ${{ github.event.inputs.cli-chrome }}"
+          ${{ github.event.inputs.cli-chrome }}
 
   cypress-edge-tests:
     runs-on: ubuntu-latest
@@ -65,4 +69,6 @@ jobs:
       - name: Run Cypress Tests for Edge
         env:
           TARGET_TOKEN_EDGE: ${{ secrets.TARGET_TOKEN_EDGE }} # Tesults token
-        run: echo "Running: ${{ github.event.inputs.cli-edge }}" && ${{ github.event.inputs.cli-edge }}
+        run: |
+          echo "Running: ${{ github.event.inputs.cli-edge }}"
+          ${{ github.event.inputs.cli-edge }}
