@@ -17,52 +17,52 @@ jobs:
   cypress-electron-tests:
     runs-on: ubuntu-latest
     steps:
-      # Passo 1: Clonar o código
+      # Step 1: Clone the code
       - name: Checkout code
         uses: actions/checkout@v4.2.2
 
-      # Passo 2: Instalar dependências
+      # Step 2: Install dependencies
       - name: Install dependencies
         run: yarn install
 
-      # Passo 3: Executar testes no Electron
+      # Step 3: Execute Cypress tests on Electron
       - name: Run Cypress Tests for Electron
         env:
-          TARGET_TOKEN_ELECTRON: ${{ secrets.TARGET_TOKEN_ELECTRON }} # Token do Tesults
+          TARGET_TOKEN_ELECTRON: ${{ secrets.TARGET_TOKEN_ELECTRON }} # Tesults token
         run: echo "Running: ${{ github.event.inputs.cli-electron }}" && ${{ github.event.inputs.cli-electron }}
 
   cypress-chrome-tests:
     runs-on: ubuntu-latest
-    needs: cypress-electron-tests # Dependência: executar após Electron
+    needs: cypress-electron-tests # Dependency: Run after Electron tests
     steps:
-      # Passo 1: Clonar o código
+      # Step 1: Clone the code
       - name: Checkout code
         uses: actions/checkout@v4.2.2
 
-      # Passo 2: Instalar dependências
+      # Step 2: Install dependencies
       - name: Install dependencies
         run: yarn install
 
-      # Passo 3: Executar testes no Chrome
+      # Step 3: Execute Cypress tests on Chrome
       - name: Run Cypress Tests for Chrome
         env:
-          TARGET_TOKEN_CHROME: ${{ secrets.TARGET_TOKEN_CHROME }} # Token do Tesults
+          TARGET_TOKEN_CHROME: ${{ secrets.TARGET_TOKEN_CHROME }} # Tesults token
         run: echo "Running: ${{ github.event.inputs.cli-chrome }}" && ${{ github.event.inputs.cli-chrome }}
 
   cypress-edge-tests:
     runs-on: ubuntu-latest
-    needs: cypress-chrome-tests # Dependência: executar após Chrome
+    needs: cypress-chrome-tests # Dependency: Run after Chrome tests
     steps:
-      # Passo 1: Clonar o código
+      # Step 1: Clone the code
       - name: Checkout code
         uses: actions/checkout@v4.2.2
 
-      # Passo 2: Instalar dependências
+      # Step 2: Install dependencies
       - name: Install dependencies
         run: yarn install
 
-      # Passo 3: Executar testes no Edge
+      # Step 3: Execute Cypress tests on Edge
       - name: Run Cypress Tests for Edge
         env:
-          TARGET_TOKEN_EDGE: ${{ secrets.TARGET_TOKEN_EDGE }} # Token do Tesults
+          TARGET_TOKEN_EDGE: ${{ secrets.TARGET_TOKEN_EDGE }} # Tesults token
         run: echo "Running: ${{ github.event.inputs.cli-edge }}" && ${{ github.event.inputs.cli-edge }}
