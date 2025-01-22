@@ -2,10 +2,6 @@ name: Cypress Tests
 
 on:
   workflow_dispatch:
-    inputs:
-      cli:
-        description: Run by Cypress node command
-        default: node runner-electron.js
 
 jobs:
   cypress-electron-tests:
