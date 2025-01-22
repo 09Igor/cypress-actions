@@ -9,7 +9,7 @@ on:
 
 jobs:
   cypress-e2e-electron:
-    runs-on: ubuntu-22.04  # Primeiro job, não depende de nenhum outro
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.2.2
@@ -36,7 +36,7 @@ jobs:
 
   cypress-e2e-chrome:
     runs-on: ubuntu-22.04
-    needs: cypress-e2e-electron  # Este job só roda se o Electron passar
+    needs: cypress-e2e-electron  # Garantir que o Electron passe primeiro
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.2.2
@@ -63,7 +63,7 @@ jobs:
 
   cypress-e2e-firefox:
     runs-on: ubuntu-22.04
-    needs: cypress-e2e-chrome  # Este job só roda se o Chrome passar
+    needs: cypress-e2e-chrome  # Garantir que o Chrome passe primeiro
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.2.2
@@ -71,7 +71,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y xvfb libnss3 libatk1.0-0 libatk-bridge2.0-0 libx11-xcb1 libxcomposite1 libxrandr2 libgbm-dev libasound2
+          sudo apt-get install -y xvfb libnss3 libatk1.0-0 libatk-bridge2.0-0 libx11-xcb1 libxcomposite1 libxrandr2 libgbm-dev libasound2 firefox
 
       - name: Start Xvfb
         run: Xvfb :99 -screen 0 1920x1080x24 & export DISPLAY=:99
