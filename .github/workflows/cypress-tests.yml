@@ -2,9 +2,19 @@ name: Cypress Tests
 
 on:
   workflow_dispatch:
+    inputs:
+      cli:
+        description: Select the runner script to execute
+        required: true
+        type: choice
+        options:
+          - "node runner-electron.js"
+          - "node runner-chrome.js"
+          - "node runner-edge.js"
+        default: "node runner-electron.js"
 
 jobs:
-  cypress-electron-tests:
+  cypress-tests:
     runs-on: ubuntu-latest
     steps:
       # Passo 1: Clonar o código
@@ -15,44 +25,8 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      # Passo 3: Executar testes com Cypress e enviar resultados para Tesults
-      - name: Run Cypress Tests and Upload to Tesults
+      # Passo 3: Executar testes com o script selecionado
+      - name: Run Selected Cypress Tests
         env:
-          TARGET_TOKEN_ELECTRON: ${{ secrets.TARGET_TOKEN_ELECTRON }} # Token de autenticação do Tesults
-        run: ${{ github.event.inputs.cli }}
-
-  cypress-chrome-tests:
-    runs-on: ubuntu-latest
-    needs: cypress-electron-tests # Executar após os testes Electron
-    steps:
-      # Passo 1: Clonar o código
-      - name: Checkout code
-        uses: actions/checkout@v4.2.2
-
-      # Passo 2: Instalar dependências
-      - name: Install dependencies
-        run: yarn install
-
-      # Passo 3: Executar testes com Cypress e enviar resultados para Tesults
-      - name: Run Cypress Tests and Upload to Tesults
-        env:
-          TARGET_TOKEN_CHROME: ${{ secrets.TARGET_TOKEN_CHROME }} # Token de autenticação do Tesults
-        run: ${{ github.event.inputs.cli }}
-
-  cypress-edge-tests:
-    runs-on: ubuntu-latest
-    needs: cypress-chrome-tests # Executar após os testes Chrome
-    steps:
-      # Passo 1: Clonar o código
-      - name: Checkout code
-        uses: actions/checkout@v4.2.2
-
-      # Passo 2: Instalar dependências
-      - name: Install dependencies
-        run: yarn install
-
-      # Passo 3: Executar testes com Cypress e enviar resultados para Tesults
-      - name: Run Cypress Tests and Upload to Tesults
-        env:
-          TARGET_TOKEN_EDGE: ${{ secrets.TARGET_TOKEN_EDGE }} # Token de autenticação do Tesults
-        run: ${{ github.event.inputs.cli }}
+          TESULTS_TOKEN: ${{ secrets.TESULTS_TOKEN }} # Variável de autenticação
+        run: echo "Running: ${{ github.event.inputs.cli }}" && ${{ github.event.inputs.cli }}
